@@ -24,9 +24,9 @@ class TuringAcceptException(Exception):
 
 class MachineTape:
 	def __init__(self, initialString=[], initialPos=0, blank="_"):
-		""" The Tape uses a simple list.  It could easily be changed into a string if * represents the start of the tape
+		""" The Tape uses a simple list.
 		    need be """
-		self.tape = ['*']
+		self.tape = []
 		self.pos = initialPos
 		self.blank = blank
 		self.initialString = initialString
@@ -140,21 +140,13 @@ class TuringMachine:
 		    This does allow for looping TM's """
 		try:
 			while 1:
-				# print('State: ', self.state)
-				# m.tape.show()
+				print('State: ', self.state)
+				m.tape.show()
 				m.step()
 		except (TuringErrorException, TuringAcceptException) as s:
 			print (s)
 
 if __name__ == "__main__":
-    # machine to accept matching parens
-    # State 0: Move R looking for )
-    #   if find ) then write X and go to state 1
-    #   if hit R end of tape, go to stare 2 (verify)
-    # State 1: Move L looking for (
-    #   if find ( then write X and go to state 0
-    # State 2: while read X, keep moving Left.
-    #   if hit Blank, go to state 3 (stop and accept).
 
     # This creates the TM and it's input.
     # The [3] is a list of accepting states. If the TM ever enters this
@@ -162,27 +154,25 @@ if __name__ == "__main__":
     # If the TM ever enters a configuration from which there is no defined
     # transition, it stops and rejects.
     
-    m = TuringMachine('110', [5])
+    m = TuringMachine('101', [6])
 
     # The following statements define the TM transitions.
     # m.addTransition(0,')',1,'X','L')
     # means in state 0, looking at ')' on the tape, the TM
     # enters state 1, writes 'X' over the ')' and moves the
     # read/write head Left.
-    # * is the start of the tape - we need to go all the way to the left
 
-    # TODO fix * logic
     # transition 0
-    m.addTransition(0, '*', 0, '*', 'R')
+
     m.addTransition(0,'0',1,'X','L')
     m.addTransition(0,'1',0,'1','R')
+    m.addTransition(0,'X',0,'X','R')
     m.addTransition(0, '_', 5, '_', 'R')
-
 
     # transition 1
     m.addTransition(1, '1', 1, '1', 'L')
     m.addTransition(1, 'X', 1, 'X', 'L')
-    m.addTransition(1, '*', 2, '*', 'R')
+    m.addTransition(1, '_', 2, '_', 'R')
     m.addTransition(1, '0', 1, '0', 'L')
     # transition 2
     m.addTransition(2, '1', 3, 'X', 'R')
@@ -192,23 +182,19 @@ if __name__ == "__main__":
     m.addTransition(3, '1', 4, 'X', 'R')
     m.addTransition(3, '0', 3, '0', 'R')
     m.addTransition(3, 'X', 3, 'X', 'R')
-    m.addTransition(2, '1', 3, 'X', 'R')
-    m.addTransition(2, '0', 2, '0', 'R')
+
     # transition 4
     m.addTransition(4, '1', 4, '1', 'L')
     m.addTransition(4, 'X', 4, 'X', 'L')
     m.addTransition(4, '0', 4, '0', 'L')
-    m.addTransition(4, '*', 0, '*', 'R')
+    m.addTransition(4, '_', 0, '_', 'R')
 
     # transition 5
     m.addTransition(5, 'X', 5, 'X', 'L')
-    m.addTransition(5, '*', 6, 'X', 'L')
+    m.addTransition(5, '_', 6, '_', 'L')
 
     # Transition 6
     m.addTransition(6, '_', 6, '_', 'R')
-
-
-
 
 
     # run the TM
