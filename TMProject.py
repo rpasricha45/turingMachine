@@ -1,4 +1,8 @@
 
+""""
+Ronak Pasricha
+"""
+
 
 import sys
 
@@ -154,7 +158,7 @@ if __name__ == "__main__":
     # If the TM ever enters a configuration from which there is no defined
     # transition, it stops and rejects.
     
-    m = TuringMachine('101', [6])
+    m = TuringMachine('1001111', [6])
 
     # The following statements define the TM transitions.
     # m.addTransition(0,')',1,'X','L')
@@ -167,7 +171,7 @@ if __name__ == "__main__":
     m.addTransition(0,'0',1,'X','L')
     m.addTransition(0,'1',0,'1','R')
     m.addTransition(0,'X',0,'X','R')
-    m.addTransition(0, '_', 5, '_', 'R')
+    m.addTransition(0, '_', 5, '_', 'L')
 
     # transition 1
     m.addTransition(1, '1', 1, '1', 'L')
@@ -179,7 +183,7 @@ if __name__ == "__main__":
     m.addTransition(2, '0', 2, '0', 'R')
     m.addTransition(2, 'X', 2, 'X', 'R')
     # add transition 3
-    m.addTransition(3, '1', 4, 'X', 'R')
+    m.addTransition(3, '1', 4, 'X', 'L')
     m.addTransition(3, '0', 3, '0', 'R')
     m.addTransition(3, 'X', 3, 'X', 'R')
 
@@ -195,7 +199,6 @@ if __name__ == "__main__":
 
     # Transition 6
     m.addTransition(6, '_', 6, '_', 'R')
-
 
     # run the TM
     m.execute()
